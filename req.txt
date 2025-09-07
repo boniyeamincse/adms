@@ -1,0 +1,289 @@
+Admit Card Management System (Laravel)
+1. Overview
+The Admit Card Management System (ACMS) is a Laravel-based web application for managing school student data, exams, fees, and admit card generation. It supports Nursery to Class 12, multiple exam types (1st, 2nd, 3rd term, custom exams), and role-based user access.
+
+2. Core Features & Modules
+🔹 2.1 Authentication & Role Management (Laravel Module)
+Modules: Auth (Laravel Breeze / Jetstream / Fortify)
+
+
+Features:
+
+
+Login/Logout/Password Reset
+
+
+Role-based access:
+
+
+Super Admin – Full access
+
+
+Teacher – Exam management & student evaluation
+
+
+Accountant – Fee management
+
+
+Student – Admit card download (optional)
+
+
+Middleware for route protection (role:superadmin, role:teacher)
+
+
+
+🔹 2.2 Student Management Module
+Modules: Student, Class
+
+
+Features:
+
+
+CRUD student profiles
+
+
+Assign class, section, roll number
+
+
+Bulk import students via Excel (maatwebsite/excel)
+
+
+Search/filter students by class/section/status
+
+
+Student status management (active/inactive/transferred)
+
+
+Laravel Components:
+Model: Student.php
+
+
+Controller: StudentController.php
+
+
+Routes: routes/web.php (CRUD & Excel import endpoints)
+
+
+
+🔹 2.3 Class & Section Module
+CRUD for classes and sections
+
+
+Assign students to classes
+
+
+Assign subjects and teachers to sections
+
+
+Tables: classes, sections, subjects
+
+🔹 2.4 Exam Management Module
+Create exams (standard or custom)
+
+
+Assign class & subjects to exam
+
+
+Set exam schedule and seat allocation
+
+
+Track student attendance in exams
+
+
+Laravel Components:
+Model: Exam.php
+
+
+Controller: ExamController.php
+
+
+Route: /exam/create, /exam/{id}/assign
+
+
+
+🔹 2.5 Admit Card Module
+Auto-generate admit cards with student & exam info
+
+
+Export to PDF (barryvdh/laravel-dompdf)
+
+
+Bulk admit card generation
+
+
+Optional watermark/logo/signature
+
+
+Workflow:
+Select class/section → 2. Select exam → 3. Generate PDF → 4. Download/Print
+
+
+
+🔹 2.6 Fee Management Module
+CRUD student fees
+
+
+Track payment status (paid, pending, overdue)
+
+
+Fee receipts generation (PDF)
+
+
+Integration with admit card module (block admit card if unpaid)
+
+
+Tables: fees, payments
+
+🔹 2.7 Teacher Module
+CRUD teacher profiles
+
+
+Assign subjects & class
+
+
+Enter marks for exams
+
+
+Approve admit card requests (if needed)
+
+
+
+🔹 2.8 Dashboard Module (Admin/Teacher)
+Modern responsive dashboard using TailwindCSS + Alpine.js
+
+
+Key metrics:
+
+
+Total students per class
+
+
+Pending fees
+
+
+Upcoming exams
+
+
+Recently generated admit cards
+
+
+Charts (Laravel Charts or Chart.js)
+
+
+
+🔹 2.9 Reporting Module
+Export reports:
+
+
+Student list (Excel/PDF)
+
+
+Fee collection report
+
+
+Exam performance report
+
+
+Advanced filters by class, exam, date
+
+
+
+3. Database Design (Laravel Migration)
+Tables:
+users – id, name, email, password, role, created_at
+
+
+students – id, name, roll_no, class_id, section_id, dob, status, photo
+
+
+classes – id, class_name, academic_year
+
+
+sections – id, section_name, class_id
+
+
+subjects – id, subject_name, class_id
+
+
+exams – id, exam_name, exam_type, class_id, start_date, end_date
+
+
+admit_cards – id, student_id, exam_id, seat_no, generated_at
+
+
+fees – id, student_id, class_id, amount, status
+
+
+payments – id, student_id, amount, payment_date, payment_method
+
+
+
+4. Security & Middleware
+Role-based access (role:superadmin, role:teacher, role:accountant)
+
+
+CSRF protection
+
+
+Password encryption (bcrypt)
+
+
+File upload validation (CSV/Excel, Images)
+
+
+
+5. Packages / Laravel Tools
+Excel Import/Export: maatwebsite/excel
+
+
+PDF Generation: barryvdh/laravel-dompdf
+
+
+Authentication: laravel/breeze or laravel/jetstream
+
+
+Charts: consoletvs/charts or Chart.js
+
+
+File Storage: Laravel Storage (local / cloud)
+
+
+
+6. Routes & Controllers
+Route
+Controller
+Method
+Role
+/login
+AuthController
+POST
+All
+/dashboard
+DashboardController
+GET
+SuperAdmin/Teacher
+/students
+StudentController
+CRUD
+SuperAdmin/Teacher
+/students/import
+StudentController
+POST
+SuperAdmin
+/classes
+ClassController
+CRUD
+SuperAdmin
+/exams
+ExamController
+CRUD
+SuperAdmin/Teacher
+/admit-cards
+AdmitCardController
+GET/POST
+SuperAdmin/Teacher
+/fees
+FeeController
+CRUD
+SuperAdmin/Accountant
+
