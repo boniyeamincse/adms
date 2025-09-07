@@ -49,6 +49,17 @@ Route::middleware(['auth', 'role:superadmin,teacher'])->group(function () {
     Route::resource('exams', ExamController::class);
     Route::get('/exams/{exam}/generate-admit-cards', [ExamController::class, 'generateAdmitCards'])->name('exams.generate-admit-cards');
     Route::get('/exams/class/{classId}/subjects', [ExamController::class, 'getSubjects'])->name('exams.class.subjects');
+
+    // Multi-step Exam Creation Wizard
+    Route::get('/exams-wizard', [ExamController::class, 'createWizard'])->name('exams.wizard.step1');
+    Route::post('/exams-wizard/step1', [ExamController::class, 'wizardStep1'])->name('exams.wizard.step1.post');
+    Route::get('/exams-wizard/step2', [ExamController::class, 'wizardStep2'])->name('exams.wizard.step2');
+    Route::post('/exams-wizard/step2', [ExamController::class, 'wizardStep3'])->name('exams.wizard.step2.post');
+    Route::get('/exams-wizard/step3', [ExamController::class, 'wizardStep3View'])->name('exams.wizard.step3');
+    Route::post('/exams-wizard/step3', [ExamController::class, 'wizardStep4'])->name('exams.wizard.step3.post');
+    Route::get('/exams-wizard/step4', [ExamController::class, 'wizardStep4View'])->name('exams.wizard.step4');
+    Route::post('/exams-wizard/complete', [ExamController::class, 'wizardComplete'])->name('exams.wizard.complete');
+    Route::post('/exams-wizard/cancel', [ExamController::class, 'wizardCancel'])->name('exams.wizard.cancel');
 });
 
 // Admit Card Management Routes - Require authentication

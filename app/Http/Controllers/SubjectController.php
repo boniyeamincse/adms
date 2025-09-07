@@ -57,13 +57,13 @@ class SubjectController extends Controller
 
     /**
      * Display the specified subject.
-     */
-    public function show(Subject $subject): View
-    {
-        $subject->load('schoolClass');
+      */
+     public function show(Subject $subject): View
+     {
+         $subject->load(['schoolClass', 'exams']);
 
-        return view('subjects.show', compact('subject'));
-    }
+         return view('subjects.show', compact('subject'));
+     }
 
     /**
      * Show the form for editing the specified subject.
