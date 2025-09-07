@@ -26,6 +26,12 @@
     <style>
         [x-cloak] { display: none !important; }
 
+        /* Enhanced professional styling */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+        }
+
         .sidebar-transition {
             transition: margin-left 0.3s ease, width 0.3s ease;
         }
@@ -34,10 +40,10 @@
             transition: margin-left 0.3s ease;
         }
 
-        /* Custom scrollbar */
+        /* Enhanced scrollbar */
         .scrollbar-thin {
             scrollbar-width: thin;
-            scrollbar-color: rgb(203 213 225) transparent;
+            scrollbar-color: rgb(156 163 175) rgb(243 244 246);
         }
 
         .scrollbar-thin::-webkit-scrollbar {
@@ -45,12 +51,27 @@
         }
 
         .scrollbar-thin::-webkit-scrollbar-track {
-            background: transparent;
+            background: rgb(243 244 246);
+            border-radius: 3px;
         }
 
         .scrollbar-thin::-webkit-scrollbar-thumb {
-            background-color: rgb(203 213 225);
+            background-color: rgb(156 163 175);
             border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background-color: rgb(107 114 128);
+        }
+
+        /* Professional card animations */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
 
         /* Dark mode support */
@@ -70,7 +91,7 @@
             border-color: rgb(55 65 81 / var(--tw-bg-opacity));
         }
 
-        /* Notification badge */
+        /* Enhanced notification badge */
         .notification-badge {
             position: relative;
         }
@@ -78,13 +99,61 @@
         .notification-badge::after {
             content: '';
             position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
+            top: -6px;
+            right: -6px;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             border-radius: 50%;
             border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .glass {
+            background: rgba(31, 41, 55, 0.85);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+
+        /* Smooth gradient backgrounds */
+        .gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .gradient-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        /* Enhanced buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6b3db6 100%);
+            transform: translateY(-1px);
         }
     </style>
 

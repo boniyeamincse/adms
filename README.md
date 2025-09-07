@@ -28,7 +28,7 @@ A comprehensive Laravel-based web application for managing school student data, 
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Laravel 12.0 Framework
+- **Backend**: Laravel 11.x Framework
 - **Frontend**: Alpine.js, Tailwind CSS
 - **Database**: SQLite (production-ready, easily switchable to MySQL/PostgreSQL)
 - **Build Tool**: Vite

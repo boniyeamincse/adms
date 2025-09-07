@@ -58,6 +58,14 @@
             <span class="font-medium">Admit Cards</span>
         </a>
 
+        <!-- Seating Plans Menu -->
+        @if($user->isSuperAdmin() || $user->isTeacher())
+        <a href="{{ route('seating-plans.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('exam.seating.*', 'seating-plans.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+            <i class="fas fa-chair w-5 h-5 mr-3"></i>
+            <span class="font-medium">Seating Plans</span>
+        </a>
+        @endif
+
         <!-- Fees Menu -->
         @if($user->isSuperAdmin() || $user->isAccountant())
         <a href="{{ route('fees.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('fees.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
@@ -91,12 +99,26 @@
         </a>
         @endif
 
-        <!-- User Management (Super Admin only) -->
-        @if($user->isSuperAdmin())
+        <!-- Administration (Super Admin & Teacher) -->
+        @if($user->isSuperAdmin() || $user->isTeacher())
         <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+        <div class="px-4 py-2">
+            <div class="flex items-center text-gray-500 dark:text-gray-400 text-xs font-semibold uppercase tracking-wider">
+                <i class="fas fa-tools w-4 h-4 mr-2"></i>
+                Administration
+            </div>
+        </div>
+
+        @if($user->isSuperAdmin())
         <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('users.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
             <i class="fas fa-user-shield w-5 h-5 mr-3"></i>
             <span class="font-medium">User Management</span>
+        </a>
+        @endif
+
+        <a href="{{ route('seating-plans.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('exam.seating.*', 'seating-plans.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+            <i class="fas fa-chair w-5 h-5 mr-3"></i>
+            <span class="font-medium">Seating Plans</span>
         </a>
         @endif
 

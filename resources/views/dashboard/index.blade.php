@@ -3,168 +3,198 @@
 @section('title', 'Education Portal - Dashboard')
 
 @section('content')
-<div class="space-y-6">
-
-    <!-- Quick Actions Section -->
-    @if(auth()->user()->isSuperAdmin())
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-school text-blue-600 dark:text-blue-400"></i>
-                </div>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
                 <div>
-                    <h3 class="font-medium text-gray-900 dark:text-white">Manage Classes</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Add/ Edit class sections</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                        Welcome back, {{ auth()->user()->name }} 👋
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Here's what's happening with your school management system today.
+                    </p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Last updated:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white ml-1">{{ now()->format('M j, g:i A') }}</span>
+                    </div>
                 </div>
             </div>
-            <div class="mt-3">
-                <a href="{{ route('classes.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
-                    View All Classes →
+        </div>
+
+        <!-- Quick Actions Section -->
+        @if(auth()->user()->isSuperAdmin())
+        <div class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="{{ route('classes.index') }}" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-school text-xl"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Manage Classes</h3>
+                        <p class="text-blue-100 text-sm leading-relaxed">Add and edit class sections with comprehensive management tools</p>
+                    </div>
+                </a>
+
+                <a href="{{ route('students.index') }}" class="group relative overflow-hidden bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-user-graduate text-xl"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Student Management</h3>
+                        <p class="text-green-100 text-sm leading-relaxed">Import bulk data and manage student records efficiently</p>
+                    </div>
+                </a>
+
+                <a href="#" onclick="generateReport()" class="group relative overflow-hidden bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-chart-line text-xl"></i>
+                            </div>
+                            <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Analytics & Reports</h3>
+                        <p class="text-purple-100 text-sm leading-relaxed">Generate comprehensive PDF reports and analytics</p>
+                    </div>
                 </a>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-user-graduate text-green-600 dark:text-green-400"></i>
-                </div>
-                <div>
-                    <h3 class="font-medium text-gray-900 dark:text-white">Bulk Student Import</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Upload student data</p>
-                </div>
-            </div>
-            <div class="mt-3">
-                <a href="{{ route('students.index') }}" class="text-sm text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-medium">
-                    Go to Students →
-                </a>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-chart-line text-purple-600 dark:text-purple-400"></i>
-                </div>
-                <div>
-                    <h3 class="font-medium text-gray-900 dark:text-white">Generate Reports</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Download PDF reports</p>
-                </div>
-            </div>
-            <div class="mt-3">
-                <a href="#" onclick="generateReport()" class="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 font-medium">
-                    Generate Report →
-                </a>
-            </div>
-        </div>
-    </div>
-    @endif
+        @endif
 
-    <!-- Key Metrics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Students Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-200 cursor-pointer" onclick="window.location.href='{{ route('students.index') }}'">
-            <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-user-graduate text-blue-600 dark:text-blue-400 text-xl"></i>
-                </div>
-                <div class="text-right">
-                    <i class="fas fa-arrow-up text-green-500 text-sm"></i>
-                    <span class="text-sm text-green-500 font-medium">+12%</span>
-                </div>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Total Students</p>
-                <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['students']['total'] }}</p>
-                <div class="flex items-center justify-between mt-3">
-                    <div class="flex items-center space-x-1">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $stats['students']['active_percentage'] }}% Active</span>
+        <!-- Key Metrics Cards -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Analytics Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Students Card -->
+                <div class="group relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-6 border border-blue-200/50 dark:border-blue-700/50 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('students.index') }}'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-user-graduate text-white text-xl"></i>
+                            </div>
+                            <div class="flex items-center space-x-1 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                                <i class="fas fa-arrow-up text-green-600 text-xs"></i>
+                                <span class="text-xs text-green-600 font-medium">+12%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1 uppercase tracking-wider">Total Students</p>
+                            <p class="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-3">{{ $stats['students']['total'] }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">{{ $stats['students']['active_percentage'] }}% Active</span>
+                                </div>
+                                <span class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 font-medium transition-colors">
+                                    View Details →
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        View Details →
-                    </span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Exams Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-200 cursor-pointer" onclick="window.location.href='{{ route('exams.index') }}'">
-            <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-clipboard-list text-purple-600 dark:text-purple-400 text-xl"></i>
-                </div>
-                <div class="text-right">
-                    <i class="fas fa-clock text-orange-500 text-sm"></i>
-                    <span class="text-sm text-orange-500 font-medium">{{ $stats['exams']['upcoming'] }} upcoming</span>
-                </div>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Admit Cards Generated</p>
-                <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['exams']['total_admit_cards'] }}</p>
-                <div class="flex items-center justify-between mt-3">
-                    <div class="flex items-center space-x-1">
-                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $stats['exams']['active'] }} Active Exams</span>
+                <!-- Exams Card -->
+                <div class="group relative overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-2xl p-6 border border-purple-200/50 dark:border-purple-700/50 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('exams.index') }}'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-clipboard-list text-white text-xl"></i>
+                            </div>
+                            <div class="flex items-center space-x-1 bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-full">
+                                <i class="fas fa-clock text-orange-600 text-xs"></i>
+                                <span class="text-xs text-orange-600 font-medium">{{ $stats['exams']['upcoming'] }} upcoming</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-purple-600 dark:text-purple-400 mb-1 uppercase tracking-wider">Admit Cards Generated</p>
+                            <p class="text-3xl font-bold text-purple-900 dark:text-purple-100 mb-3">{{ $stats['exams']['total_admit_cards'] }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">{{ $stats['exams']['active'] }} Active Exams</span>
+                                </div>
+                                <span class="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-200 font-medium transition-colors">
+                                    Manage Exams →
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-xs text-gray-400 dark:text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                        Manage Exams →
-                    </span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Fees Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-200 cursor-pointer" onclick="window.location.href='{{ route('fees.index') }}'">
-            <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-coins text-green-600 dark:text-green-400 text-xl"></i>
-                </div>
-                <div class="text-right">
-                    <i class="fas fa-chart-line text-green-500 text-sm"></i>
-                    <span class="text-sm text-green-500 font-medium">{{ $stats['fees']['paid_percentage'] }}% collected</span>
-                </div>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Fees This Month</p>
-                <p class="text-3xl font-bold text-gray-900 dark:text-white">৳{{ number_format($stats['fees']['paid_amount']) }}</p>
-                <div class="flex items-center justify-between mt-3">
-                    <div class="flex items-center space-x-1">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $stats['fees']['paid'] }}/{{ $stats['fees']['total'] }} collected</span>
+                <!-- Fees Card -->
+                <div class="group relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-2xl p-6 border border-green-200/50 dark:border-green-700/50 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('fees.index') }}'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-coins text-white text-xl"></i>
+                            </div>
+                            <div class="flex items-center space-x-1 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                                <i class="fas fa-chart-line text-green-600 text-xs"></i>
+                                <span class="text-xs text-green-600 font-medium">{{ $stats['fees']['paid_percentage'] }}% collected</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-green-600 dark:text-green-400 mb-1 uppercase tracking-wider">Fees This Month</p>
+                            <p class="text-3xl font-bold text-green-900 dark:text-green-100 mb-3">৳{{ number_format($stats['fees']['paid_amount']) }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">{{ $stats['fees']['paid'] }}/{{ $stats['fees']['total'] }} collected</span>
+                                </div>
+                                <span class="text-xs text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200 font-medium transition-colors">
+                                    View Details →
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-xs text-gray-400 dark:text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors">
-                        View Details →
-                    </span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Payments Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all duration-200 cursor-pointer" onclick="window.location.href='{{ route('payments.index') }}'">
-            <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/50 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-credit-card text-yellow-600 dark:text-yellow-400 text-xl"></i>
-                </div>
-                <div class="text-right">
-                    <i class="fas fa-trending-up text-green-500 text-sm"></i>
-                    <span class="text-sm text-green-500 font-medium">Growing</span>
-                </div>
-            </div>
-            <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Total Payments</p>
-                <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['payments']['total'] }}</p>
-                <div class="flex items-center justify-between mt-3">
-                    <div class="flex items-center space-x-1">
-                        <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Avg: ৳{{ number_format($stats['payments']['avg_payment'], 0) }}</span>
+                <!-- Payments Card -->
+                <div class="group relative overflow-hidden bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 rounded-2xl p-6 border border-yellow-200/50 dark:border-yellow-700/50 shadow-sm hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" onclick="window.location.href='{{ route('payments.index') }}'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-credit-card text-white text-xl"></i>
+                            </div>
+                            <div class="flex items-center space-x-1 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                                <i class="fas fa-trending-up text-green-600 text-xs"></i>
+                                <span class="text-xs text-green-600 font-medium">Growing</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-yellow-600 dark:text-yellow-400 mb-1 uppercase tracking-wider">Total Payments</p>
+                            <p class="text-3xl font-bold text-yellow-900 dark:text-yellow-100 mb-3">{{ $stats['payments']['total'] }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">Avg: ৳{{ number_format($stats['payments']['avg_payment'], 0) }}</span>
+                                </div>
+                                <span class="text-xs text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-200 font-medium transition-colors">
+                                    View Payments →
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-xs text-gray-400 dark:text-gray-500 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">
-                        View Payments →
-                    </span>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Data Insights Section -->
     <div class="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-6">
@@ -196,7 +226,7 @@
                 </div>
                 <div class="mt-4 flex items-center justify-between text-sm">
                     <span class="text-gray-500 dark:text-gray-400">Total classes: 8</span>
-                    <span class="text-gray-500 dark:text-gray-400">Avg: {{ round($stats['students']['total'] / 8) }} students</span>
+                    <span class="text-gray-500 dark:text-gray-400">Avg: {{ $stats['students']['total'] > 0 ? round($stats['students']['total'] / 8) : 0 }} students</span>
                 </div>
             </div>
 
@@ -484,11 +514,15 @@ document.addEventListener('DOMContentLoaded', function() {
 async function initializeCharts() {
     try {
         // Initialize Fee Collection Chart (Area Chart)
-        const feeCtx = document.getElementById('feeCollectionChart').getContext('2d');
-        window.feeCollectionChart = new Chart(feeCtx, {
-            type: 'line',
-            data: await fetchChartData('monthly-fees'),
-            options: {
+        const feeCanvas = document.getElementById('feeCollectionChart');
+        if (!feeCanvas) {
+            console.warn('feeCollectionChart canvas not found, skipping fee chart initialization');
+        } else {
+            const feeCtx = feeCanvas.getContext('2d');
+            window.feeCollectionChart = new Chart(feeCtx, {
+                type: 'line',
+                data: await fetchChartData('monthly-fees'),
+                options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 fill: true,
@@ -524,11 +558,15 @@ async function initializeCharts() {
         });
 
         // Initialize Class Distribution Chart (Bar Chart)
-        const classCtx = document.getElementById('classDistributionChart').getContext('2d');
-        window.classDistributionChart = new Chart(classCtx, {
-            type: 'bar',
-            data: await fetchChartData('class-distribution'),
-            options: {
+        const classCanvas = document.getElementById('classDistributionChart');
+        if (!classCanvas) {
+            console.warn('classDistributionChart canvas not found, skipping class chart initialization');
+        } else {
+            const classCtx = classCanvas.getContext('2d');
+            window.classDistributionChart = new Chart(classCtx, {
+                type: 'bar',
+                data: await fetchChartData('class-distribution'),
+                options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -559,27 +597,31 @@ async function initializeCharts() {
         });
 
         // Initialize Attendance Chart (Line Chart)
-        const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
-        window.attendanceChart = new Chart(attendanceCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Attendance Rate (%)',
-                    data: [92, 89, 95, 91, 97, 95],
-                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                    borderColor: 'rgba(34, 197, 94, 1)',
-                    borderWidth: 3,
-                    pointBackgroundColor: 'rgba(34, 197, 94, 1)',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
-                    fill: false,
-                    tension: 0.4
-                }]
-            },
-            options: {
+        const attendanceCanvas = document.getElementById('attendanceChart');
+        if (!attendanceCanvas) {
+            console.warn('attendanceChart canvas not found, skipping attendance chart initialization');
+        } else {
+            const attendanceCtx = attendanceCanvas.getContext('2d');
+            window.attendanceChart = new Chart(attendanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Attendance Rate (%)',
+                        data: [92, 89, 95, 91, 97, 95],
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: false,
+                        tension: 0.4
+                    }]
+                },
+                options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -624,7 +666,12 @@ async function initializeCharts() {
 
     } catch (error) {
         console.error('Error initializing charts:', error);
-        notifyError('Error loading dashboard charts');
+        // Gracefully handle missing notifyError function
+        if (typeof notifyError === 'function') {
+            notifyError('Error loading dashboard charts');
+        } else {
+            console.warn('notifyError not available, chart initialization failed silently');
+        }
     }
 }
 
@@ -668,6 +715,10 @@ async function refreshStats() {
         }
     } catch (error) {
         console.error('Error refreshing stats:', error);
+        // Gracefully handle missing notification functions
+        if (typeof notifyError === 'function') {
+            notifyError('Failed to refresh stats. Check console for details.');
+        }
     }
 }
 
@@ -786,7 +837,10 @@ async function refreshAllData() {
 
     } catch (error) {
         console.error('Error refreshing data:', error);
-        notifyError('Failed to refresh data.');
+        // Gracefully handle missing notification functions
+        if (typeof notifyError === 'function') {
+            notifyError('Failed to refresh data.');
+        }
     }
 }
 
@@ -990,7 +1044,34 @@ function clearAllNotifications() {
     }
 }
 
+// Initialize notification system first
+initNotificationSystem();
+
+// Utility functions for easy notification usage
+function notifySuccess(message, duration = 5000) {
+    return showNotification(message, 'success', duration);
+}
+
+function notifyError(message, duration = 7000) {
+    return showNotification(message, 'error', duration);
+}
+
+function notifyWarning(message, duration = 6000) {
+    return showNotification(message, 'warning', duration);
+}
+
+function notifyInfo(message, duration = 5000) {
+    return showNotification(message, 'info', duration);
+}
+
+// Gracefully handle missing functions
+if (typeof min !== 'function') {
+    window.min = Math.min;
+}
+
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initNotificationSystem);
+document.addEventListener('DOMContentLoaded', function() {
+    initNotificationSystem();
+});
 </script>
 @endpush

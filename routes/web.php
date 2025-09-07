@@ -11,6 +11,7 @@ use App\Http\Controllers\FeeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SeatingPlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -87,9 +88,21 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/users/role-stats', [UserController::class, 'getRoleStats'])->name('users.role-stats');
 });
 
+// Seating Plan Management Routes - Require authentication and admin roles
+Route::middleware(['auth', 'role:superadmin,teacher'])->group(function () {
+    Route::get('/seating-plans', [SeatingPlanController::class, 'index'])->name('seating-plans.index');
+    Route::get('/exam/{exam}/seating-plan/create', [SeatingPlanController::class, 'create'])->name('exam.seating.create');
+    Route::post('/exam/{exam}/seating-plan/generate', [SeatingPlanController::class, 'generate'])->name('exam.seating.generate');
+    Route::get('/exam/{exam}/seating-plan', [SeatingPlanController::class, 'show'])->name('exam.seating.show');
+    Route::post('/exam/{exam}/seating-plan/swap-students', [SeatingPlanController::class, 'swapStudents'])->name('exam.seating.swap');
+    Route::get('/exam/{exam}/seating-plan/regenerate', [SeatingPlanController::class, 'regenerate'])->name('exam.seating.regenerate');
+    Route::get('/exam/{exam}/seating-plan/export', [SeatingPlanController::class, 'exportToPdf'])->name('exam.seating.export');
+    Route::get('/exam/{exam}/seating-plan/analytics', [SeatingPlanController::class, 'getAnalytics'])->name('exam.seating.analytics');
+});
+
 // My Profile Routes - Require authentication (all roles)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [UserController::class, 'profile'])->name('profile.edit');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile.view');
     Route::patch('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
 });
 
