@@ -52,11 +52,73 @@
         </a>
         @endif
 
-        <!-- Admit Cards Menu -->
-        <a href="{{ route('admit-cards.index') }}" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('admit-cards.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
-            <i class="fas fa-id-card w-5 h-5 mr-3"></i>
-            <span class="font-medium">Admit Cards</span>
-        </a>
+        <!-- Admit Cards Menu with Submenu -->
+        <div class="space-y-1">
+            <button @click="admitCardMenuOpen = !admitCardMenuOpen" class="flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('admit-cards.*') || request()->routeIs('subjects.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                <div class="flex items-center">
+                    <i class="fas fa-id-card w-5 h-5 mr-3"></i>
+                    <span class="font-medium">Admit Cards</span>
+                </div>
+                <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': admitCardMenuOpen }"></i>
+            </button>
+
+            <div x-show="admitCardMenuOpen" x-transition:enter="transition-all duration-200 ease-out" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition-all duration-200 ease-in" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="ml-6 space-y-1 overflow-hidden" style="display: none;">
+                <!-- Dashboard -->
+                <a href="{{ route('admit-cards.dashboard') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('admit-cards.dashboard') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                    <i class="fas fa-tachometer-alt w-4 h-4 mr-3"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                @if($user->isSuperAdmin())
+                <!-- Subject Management -->
+                <a href="{{ route('subjects.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('subjects.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                    <i class="fas fa-graduation-cap w-4 h-4 mr-3"></i>
+                    <span>Subject Management</span>
+                </a>
+                @endif
+
+                @if($user->isSuperAdmin() || $user->isTeacher())
+                <!-- Exam & Schedule Setup -->
+                <a href="{{ route('exams.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('exams.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                    <i class="fas fa-calendar-alt w-4 h-4 mr-3"></i>
+                    <span>Exam & Schedule Setup</span>
+                </a>
+
+                <!-- Seating Plans -->
+                <a href="{{ route('seating-plans.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('exam.seating.*', 'seating-plans.*') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                    <i class="fas fa-chair w-4 h-4 mr-3"></i>
+                    <span>Seating Plans</span>
+                </a>
+                @endif
+
+                <!-- Admit Card Generation -->
+                <a href="{{ route('admit-cards.create') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('admit-cards.create') ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400' : '' }}">
+                    <i class="fas fa-plus-circle w-4 h-4 mr-3"></i>
+                    <span>Admit Card Generation</span>
+                </a>
+
+                <!-- Templates & Design -->
+                <a href="#" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-paint-brush w-4 h-4 mr-3"></i>
+                    <span>Templates & Design</span>
+                    <span class="ml-auto bg-yellow-200 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-1 rounded-full">Soon</span>
+                </a>
+
+                <!-- Reports & Analytics -->
+                <a href="#" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-chart-bar w-4 h-4 mr-3"></i>
+                    <span>Reports & Analytics</span>
+                    <span class="ml-auto bg-yellow-200 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-1 rounded-full">Soon</span>
+                </a>
+
+                <!-- Settings -->
+                <a href="#" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-cog w-4 h-4 mr-3"></i>
+                    <span>Settings</span>
+                    <span class="ml-auto bg-yellow-200 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-1 rounded-full">Soon</span>
+                </a>
+            </div>
+        </div>
 
         <!-- Seating Plans Menu -->
         @if($user->isSuperAdmin() || $user->isTeacher())

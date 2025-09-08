@@ -208,6 +208,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('app', () => ({
                 sidebarOpen: window.innerWidth >= 1024,
+                admitCardMenuOpen: false,
 
                 init() {
                     window.addEventListener('resize', () => {

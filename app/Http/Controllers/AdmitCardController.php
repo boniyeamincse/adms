@@ -208,4 +208,27 @@ class AdmitCardController extends Controller
 
         return $pdf->download('bulk_admit_cards.pdf');
     }
+
+    /**
+     * Display the admit cards management dashboard.
+     */
+    public function dashboard(): View
+    {
+        // Mock dashboard statistics - replace with actual queries
+        $stats = [
+            'totalAdmitCards' => AdmitCard::count(),
+            'upcomingExams' => \App\Models\Exam::where('start_date', '>', now())->count(),
+            'pendingPrint' => AdmitCard::where('generated_at', '>', now()->subDays(7))->count(),
+            'thisMonth' => AdmitCard::whereMonth('generated_at', now()->month)->count(),
+            'monthlyGrowth' => 15, // Mock growth percentage
+            'examCardCount' => 245,
+            'examStudentCount' => 185,
+            'midTermCardCount' => 156,
+            'midTermStudentCount' => 124,
+            'assessmentCardCount' => 89,
+            'assessmentStudentCount' => 67,
+        ];
+
+        return view('admit-cards.dashboard', $stats);
+    }
 }

@@ -64,6 +64,7 @@ Route::middleware(['auth', 'role:superadmin,teacher'])->group(function () {
 
 // Admit Card Management Routes - Require authentication
 Route::middleware(['auth'])->group(function () {
+    Route::get('/admit-cards-dashboard', [AdmitCardController::class, 'dashboard'])->name('admit-cards.dashboard');
     Route::resource('admit-cards', AdmitCardController::class);
     Route::get('/admit-cards/{admitCard}/download', [AdmitCardController::class, 'download'])->name('admit-cards.download');
     Route::post('/admit-cards/bulk-generate', [AdmitCardController::class, 'bulkGenerate'])->name('admit-cards.bulk-generate');
